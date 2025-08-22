@@ -9,7 +9,7 @@ public class xiaoDu {
         ArrayList<Task> tasks = new ArrayList<>();
 
         while (true) {
-            input = scanner.nextLine();
+            input = scanner.nextLine().trim();
 
             if (input.equals("bye")) {
                 System.out.println("Bye. Hope to see you again soon!");
@@ -49,10 +49,61 @@ public class xiaoDu {
                 } catch (NumberFormatException e) {
                     System.out.println("Please provide a valid task number!");
                 }
+            } else if (input.startsWith("todo ")) {
+                String description = input.substring(5).trim();
+                if (!description.isEmpty()) {
+                    Task newTask = new ToDo(description);
+                    tasks.add(newTask);
+                    System.out.println("Got it. I've added this task:");
+                    System.out.println("  " + newTask);
+                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                } else {
+                    System.out.println("The description of a todo cannot be empty.");
+                }
+            } else if (input.startsWith("deadline ")) {
+                String remaining = input.substring(9).trim();
+                int byIndex = remaining.indexOf("/by");
+                if (byIndex != -1) {
+                    String description = remaining.substring(0, byIndex).trim();
+                    String by = remaining.substring(byIndex + 3).trim();
+                    if (!description.isEmpty() && !by.isEmpty()) {
+                        Task newTask = new Deadline(description, by);
+                        tasks.add(newTask);
+                        System.out.println("Got it. I've added this task:");
+                        System.out.println("  " + newTask);
+                        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                    } else {
+                        System.out.println("The description and deadline cannot be empty.");
+                    }
+                } else {
+                    System.out.println("Please specify the deadline using /by.");
+                }
+            } else if (input.startsWith("event ")) {
+                String remaining = input.substring(6).trim();
+                int fromIndex = remaining.indexOf("/from");
+                int toIndex = remaining.indexOf("/to");
+                if (fromIndex != -1 && toIndex != -1) {
+                    String description = remaining.substring(0, fromIndex).trim();
+                    String from = remaining.substring(fromIndex + 5, toIndex).trim();
+                    String to = remaining.substring(toIndex + 3).trim();
+                    if (!description.isEmpty() && !from.isEmpty() && !to.isEmpty()) {
+                        Task newTask = new Event(description, from, to);
+                        tasks.add(newTask);
+                        System.out.println("Got it. I've added this task:");
+                        System.out.println("  " + newTask);
+                        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                    } else {
+                        System.out.println("The description, start time and end time cannot be empty.");
+                    }
+                } else {
+                    System.out.println("Please specify the time using /from and /to.");
+                }
             } else {
-                Task newTask = new Task(input);
+                Task newTask = new ToDo(input);
                 tasks.add(newTask);
-                System.out.println("added: " + input);
+                System.out.println("Got it. I've added this task:");
+                System.out.println("  " + newTask);
+                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
             }
         }
 
