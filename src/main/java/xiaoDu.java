@@ -7,6 +7,7 @@ public class xiaoDu {
         Scanner scanner = new Scanner(System.in);
         String input;
         ArrayList<Task> tasks = new ArrayList<>();
+        //use Arraylist for further development
 
         while (true) {
             input = scanner.nextLine().trim();

@@ -1,3 +1,4 @@
+//divide task into event,ddl and todo
 public class Deadline extends Task {
     protected String by;
 

@@ -1,3 +1,4 @@
+//Create Task class to easier achieve mark function
 public class Task {
     protected String description;
     protected boolean isDone;
