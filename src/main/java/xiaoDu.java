@@ -31,10 +31,12 @@ public class xiaoDu {
                         System.out.println("Nice! I've marked this task as done:");
                         System.out.println("  " + tasks.get(taskNumber));
                     } else {
-                        System.out.println("Invalid task number!");
+                        System.out.println("OOPS!!! Invalid task number!");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Please provide a valid task number!");
+                    System.out.println("OOPS!!! Please provide a valid task number!");
+                } catch (Exception e) {
+                    System.out.println("OOPS!!! Something went wrong with marking the task!");
                 }
             } else if (input.startsWith("unmark ")) {
                 try {
@@ -44,11 +46,15 @@ public class xiaoDu {
                         System.out.println("OK, I've marked this task as not done yet:");
                         System.out.println("  " + tasks.get(taskNumber));
                     } else {
-                        System.out.println("Invalid task number!");
+                        System.out.println("OOPS!!! Invalid task number!");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Please provide a valid task number!");
+                    System.out.println("OOPS!!! Please provide a valid task number!");
+                } catch (Exception e) {
+                    System.out.println("OOPS!!! Something went wrong with unmarking the task!");
                 }
+            } else if (input.equals("todo")) {
+                System.out.println("OOPS!!! The description of a todo cannot be empty.");
             } else if (input.startsWith("todo ")) {
                 String description = input.substring(5).trim();
                 if (!description.isEmpty()) {
@@ -58,8 +64,10 @@ public class xiaoDu {
                     System.out.println("  " + newTask);
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
                 } else {
-                    System.out.println("The description of a todo cannot be empty.");
+                    System.out.println("OOPS!!! The description of a todo cannot be empty.");
                 }
+            } else if (input.equals("deadline")) {
+                System.out.println("OOPS!!! The description of a deadline cannot be empty.");
             } else if (input.startsWith("deadline ")) {
                 String remaining = input.substring(9).trim();
                 int byIndex = remaining.indexOf("/by");
@@ -73,11 +81,13 @@ public class xiaoDu {
                         System.out.println("  " + newTask);
                         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
                     } else {
-                        System.out.println("The description and deadline cannot be empty.");
+                        System.out.println("OOPS!!! The description and deadline cannot be empty.");
                     }
                 } else {
-                    System.out.println("Please specify the deadline using /by.");
+                    System.out.println("OOPS!!! Please specify the deadline using /by.");
                 }
+            } else if (input.equals("event")) {
+                System.out.println("OOPS!!! The description of an event cannot be empty.");
             } else if (input.startsWith("event ")) {
                 String remaining = input.substring(6).trim();
                 int fromIndex = remaining.indexOf("/from");
@@ -93,17 +103,13 @@ public class xiaoDu {
                         System.out.println("  " + newTask);
                         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
                     } else {
-                        System.out.println("The description, start time and end time cannot be empty.");
+                        System.out.println("OOPS!!! The description, start time and end time cannot be empty.");
                     }
                 } else {
-                    System.out.println("Please specify the time using /from and /to.");
+                    System.out.println("OOPS!!! Please specify the time using /from and /to.");
                 }
             } else {
-                Task newTask = new ToDo(input);
-                tasks.add(newTask);
-                System.out.println("Got it. I've added this task:");
-                System.out.println("  " + newTask);
-                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                System.out.println("OOPS!!! I'm sorry, but I don't know what that means :-(");
             }
         }
 
