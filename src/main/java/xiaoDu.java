@@ -53,6 +53,22 @@ public class xiaoDu {
                 } catch (Exception e) {
                     System.out.println("OOPS!!! Something went wrong with unmarking the task!");
                 }
+            } else if (input.startsWith("delete ")) {
+                try {
+                    int taskNumber = Integer.parseInt(input.substring(7)) - 1;
+                    if (taskNumber >= 0 && taskNumber < tasks.size()) {
+                        Task removedTask = tasks.remove(taskNumber);
+                        System.out.println("Noted. I've removed this task:");
+                        System.out.println("  " + removedTask);
+                        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                    } else {
+                        System.out.println("OOPS!!! Invalid task number!");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("OOPS!!! Please provide a valid task number!");
+                } catch (Exception e) {
+                    System.out.println("OOPS!!! Something went wrong with deleting the task!");
+                }
             } else if (input.equals("todo")) {
                 System.out.println("OOPS!!! The description of a todo cannot be empty.");
             } else if (input.startsWith("todo ")) {
