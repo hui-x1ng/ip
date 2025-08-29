@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.File;
+import java.io.IOException;
 
 public class xiaoDu {
     public static void main(String[] args) {
@@ -7,7 +10,8 @@ public class xiaoDu {
         Scanner scanner = new Scanner(System.in);
         String input;
         ArrayList<Task> tasks = new ArrayList<>();
-        //use Arraylist for further development
+
+        loadTasks(tasks);
 
         while (true) {
             input = scanner.nextLine().trim();
@@ -31,6 +35,7 @@ public class xiaoDu {
                         tasks.get(taskNumber).markAsDone();
                         System.out.println("Nice! I've marked this task as done:");
                         System.out.println("  " + tasks.get(taskNumber));
+                        saveTasks(tasks);
                     } else {
                         System.out.println("OOPS!!! Invalid task number!");
                     }
@@ -46,6 +51,7 @@ public class xiaoDu {
                         tasks.get(taskNumber).markAsNotDone();
                         System.out.println("OK, I've marked this task as not done yet:");
                         System.out.println("  " + tasks.get(taskNumber));
+                        saveTasks(tasks);
                     } else {
                         System.out.println("OOPS!!! Invalid task number!");
                     }
@@ -62,6 +68,7 @@ public class xiaoDu {
                         System.out.println("Noted. I've removed this task:");
                         System.out.println("  " + removedTask);
                         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                        saveTasks(tasks);
                     } else {
                         System.out.println("OOPS!!! Invalid task number!");
                     }
@@ -80,6 +87,7 @@ public class xiaoDu {
                     System.out.println("Got it. I've added this task:");
                     System.out.println("  " + newTask);
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                    saveTasks(tasks);
                 } else {
                     System.out.println("OOPS!!! The description of a todo cannot be empty.");
                 }
@@ -97,6 +105,7 @@ public class xiaoDu {
                         System.out.println("Got it. I've added this task:");
                         System.out.println("  " + newTask);
                         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                        saveTasks(tasks); 
                     } else {
                         System.out.println("OOPS!!! The description and deadline cannot be empty.");
                     }
@@ -119,6 +128,7 @@ public class xiaoDu {
                         System.out.println("Got it. I've added this task:");
                         System.out.println("  " + newTask);
                         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                        saveTasks(tasks);
                     } else {
                         System.out.println("OOPS!!! The description, start time and end time cannot be empty.");
                     }
@@ -131,5 +141,61 @@ public class xiaoDu {
         }
 
         scanner.close();
+    }
+
+    private static void saveTasks(ArrayList<Task> tasks) {
+        try {
+            FileWriter writer = new FileWriter("./data/duke.txt");
+            for (Task task : tasks) {
+                String line = "";
+                if (task instanceof ToDo) {
+                    line = "T | " + (task.isDone() ? "1" : "0") + " | " + task.getDescription();
+                } else if (task instanceof Deadline) {
+                    Deadline d = (Deadline) task;
+                    line = "D | " + (task.isDone() ? "1" : "0") + " | " + task.getDescription() + " | " + d.by;
+                } else if (task instanceof Event) {
+                    Event e = (Event) task;
+                    line = "E | " + (task.isDone() ? "1" : "0") + " | " + task.getDescription() + " | " + e.from + " to " + e.to;
+                }
+                writer.write(line + "\n");
+            }
+            writer.close();
+        } catch (IOException e) {
+        }
+    }
+
+
+    private static void loadTasks(ArrayList<Task> tasks) {
+        try {
+            Scanner fileScanner = new Scanner(new File("./data/duke.txt"));
+            while (fileScanner.hasNextLine()) {
+                String line = fileScanner.nextLine();
+                String[] parts = line.split(" \\| ");
+                if (parts.length >= 3) {
+                    String type = parts[0];
+                    boolean isDone = parts[1].equals("1");
+                    String description = parts[2];
+
+                    Task task = null;
+                    if (type.equals("T")) {
+                        task = new ToDo(description);
+                    } else if (type.equals("D") && parts.length >= 4) {
+                        task = new Deadline(description, parts[3]);
+                    } else if (type.equals("E") && parts.length >= 4) {
+                        String[] timeParts = parts[3].split(" to ");
+                        if (timeParts.length == 2) {
+                            task = new Event(description, timeParts[0], timeParts[1]);
+                        }
+                    }
+
+                    if (task != null) {
+                        if (isDone) task.markAsDone();
+                        tasks.add(task);
+                    }
+                }
+            }
+            fileScanner.close();
+        } catch (Exception e) {
+        }
     }
 }
