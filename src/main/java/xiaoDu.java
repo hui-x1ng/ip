@@ -3,6 +3,9 @@ import java.util.Scanner;
 import java.io.FileWriter;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class xiaoDu {
     public static void main(String[] args) {
@@ -98,14 +101,16 @@ public class xiaoDu {
                 int byIndex = remaining.indexOf("/by");
                 if (byIndex != -1) {
                     String description = remaining.substring(0, byIndex).trim();
-                    String by = remaining.substring(byIndex + 3).trim();
-                    if (!description.isEmpty() && !by.isEmpty()) {
-                        Task newTask = new Deadline(description, by);
+                    String byString = remaining.substring(byIndex + 3).trim();
+                    if (!description.isEmpty() && !byString.isEmpty()) {
+                        // 尝试解析日期
+                        LocalDate by = parseDate(byString);
+                        Task newTask = new Deadline(description, byString, by);
                         tasks.add(newTask);
                         System.out.println("Got it. I've added this task:");
                         System.out.println("  " + newTask);
                         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-                        saveTasks(tasks); 
+                        saveTasks(tasks);
                     } else {
                         System.out.println("OOPS!!! The description and deadline cannot be empty.");
                     }
@@ -128,7 +133,7 @@ public class xiaoDu {
                         System.out.println("Got it. I've added this task:");
                         System.out.println("  " + newTask);
                         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-                        saveTasks(tasks);
+                        saveTasks(tasks); // 自动保存
                     } else {
                         System.out.println("OOPS!!! The description, start time and end time cannot be empty.");
                     }
@@ -141,6 +146,14 @@ public class xiaoDu {
         }
 
         scanner.close();
+    }
+
+    private static LocalDate parseDate(String dateString) {
+        try {
+            return LocalDate.parse(dateString);
+        } catch (DateTimeParseException e) {
+            return null;
+        }
     }
 
     private static void saveTasks(ArrayList<Task> tasks) {
@@ -164,7 +177,6 @@ public class xiaoDu {
         }
     }
 
-
     private static void loadTasks(ArrayList<Task> tasks) {
         try {
             Scanner fileScanner = new Scanner(new File("./data/duke.txt"));
@@ -180,7 +192,8 @@ public class xiaoDu {
                     if (type.equals("T")) {
                         task = new ToDo(description);
                     } else if (type.equals("D") && parts.length >= 4) {
-                        task = new Deadline(description, parts[3]);
+                        LocalDate byDate = parseDate(parts[3]);
+                        task = new Deadline(description, parts[3], byDate);
                     } else if (type.equals("E") && parts.length >= 4) {
                         String[] timeParts = parts[3].split(" to ");
                         if (timeParts.length == 2) {
