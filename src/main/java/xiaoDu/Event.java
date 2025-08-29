@@ -1,4 +1,6 @@
 //divide task into event,ddl and todo
+package xiaoDu;
+
 public class Event extends Task {
     public String from;
     public String to;
