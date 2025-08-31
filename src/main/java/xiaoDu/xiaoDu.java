@@ -3,6 +3,8 @@
  */
 package xiaoDu;
 
+import java.util.ArrayList;
+
 public class xiaoDu {
     private TaskList tasks;
     private Ui ui;
@@ -55,6 +57,10 @@ public class xiaoDu {
 
                 case EVENT:
                     handleEvent(command.getArguments());
+                    break;
+
+                case FIND:
+                    handleFind(command.getArguments());
                     break;
 
                 case UNKNOWN:
@@ -155,6 +161,20 @@ public class xiaoDu {
             } else {
                 ui.showError("Please specify the time using /from and /to.");
             }
+        }
+    }
+
+    private void handleFind(String arguments){
+        ArrayList<Task> matchingTasks = new ArrayList<>();
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
+            if (task.getDescription().toLowerCase().contains(arguments.toLowerCase())) {
+                matchingTasks.add(task);
+            }
+        }
+        System.out.println("Here are the matching tasks in your list:");
+        for (int i = 0; i < matchingTasks.size(); i++) {
+            System.out.println((i + 1) + "." + matchingTasks.get(i));
         }
     }
 

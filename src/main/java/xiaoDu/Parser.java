@@ -36,6 +36,8 @@ public class Parser {
                 return new Command(CommandType.DEADLINE, arguments);
             case "event":
                 return new Command(CommandType.EVENT, arguments);
+            case "find":
+                return new Command(CommandType.FIND, arguments);
             default:
                 return new Command(CommandType.UNKNOWN);
         }
@@ -72,6 +74,7 @@ public class Parser {
                     return new Event(description, from, to);
                 }
                 break;
+
         }
         return null;
     }
@@ -86,7 +89,7 @@ public class Parser {
 }
 
 enum CommandType {
-    BYE, LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, UNKNOWN
+    BYE, LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, FIND, UNKNOWN
 }
 
 class Command {
