@@ -1,3 +1,6 @@
+/**
+ * Main class for xiaoDu
+ */
 package xiaoDu;
 
 public class xiaoDu {
@@ -11,18 +14,19 @@ public class xiaoDu {
         tasks = storage.load();
     }
 
+    /**
+     * The method to run xiaoDu
+     */
     public void run() {
         ui.showWelcome();
-
-        boolean isExit = false;
-        while (!isExit) {
+        while (true) {
             String input = ui.readCommand();
             Command command = Parser.parse(input);
 
             switch (command.getType()) {
                 case BYE:
-                    isExit = true;
                     ui.showBye();
+                    ui.close();
                     break;
 
                 case LIST:
@@ -58,10 +62,12 @@ public class xiaoDu {
                     break;
             }
         }
-
-        ui.close();
     }
 
+    /**
+     * handle mark command
+     * @param arguments num of task to be marked
+     */
     private void handleMark(String arguments) {
         try {
             int taskNumber = Integer.parseInt(arguments) - 1;
@@ -77,6 +83,10 @@ public class xiaoDu {
         }
     }
 
+    /**
+     * Fulfill unmark command
+     * @param arguments num of task to be unmarked
+     */
     private void handleUnmark(String arguments) {
         try {
             int taskNumber = Integer.parseInt(arguments) - 1;

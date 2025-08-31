@@ -1,3 +1,6 @@
+/**
+ * UI class, deals with interactions with the user
+ */
 package xiaoDu;
 
 import java.util.Scanner;
@@ -9,10 +12,16 @@ public class Ui {
         scanner = new Scanner(System.in);
     }
 
+    /**
+     * print welcome prompt
+     */
     public void showWelcome() {
         System.out.println("Hello I'm xiaoDu\nWhat can I do for you?");
     }
 
+    /**
+     * print bye prompt
+     */
     public void showBye() {
         System.out.println("Bye. Hope to see you again soon!");
     }

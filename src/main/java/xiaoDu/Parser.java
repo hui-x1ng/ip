@@ -1,3 +1,7 @@
+/**
+ * Parse command and time
+ */
+
 package xiaoDu;
 
 import java.time.LocalDate;
@@ -5,6 +9,11 @@ import java.time.format.DateTimeParseException;
 
 public class Parser {
 
+    /**
+     * split the command first
+     * @param fullCommand full command
+     * @return parsed command
+     */
     public static Command parse(String fullCommand) {
         String[] parts = fullCommand.split(" ", 2);
         String commandWord = parts[0];
@@ -32,6 +41,12 @@ public class Parser {
         }
     }
 
+    /**
+     * deal with different command
+     * @param type command type
+     * @param arguments the argument of the command
+     * @return task
+     */
     public static Task parseTask(CommandType type, String arguments) {
         switch (type) {
             case TODO:
