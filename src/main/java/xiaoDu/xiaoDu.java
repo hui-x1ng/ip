@@ -14,6 +14,8 @@ public class xiaoDu {
         ui = new Ui();
         storage = new Storage(filePath);
         tasks = storage.load();
+
+        assert ui != null :"fail to initialize UI";
     }
 
     /**
