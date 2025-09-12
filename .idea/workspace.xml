@@ -5,23 +5,52 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="073c21cd-afc3-4ff1-9f00-2555b98db9f9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gradle/7.6.2/checksums/md5-checksums.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/7.6.2/checksums/sha1-checksums.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/xiaoDu/DialogBox.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/xiaoDu/Launcher.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/xiaoDu/Main.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/xiaoDu/MainWindow.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/images/DaDuke.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/images/DaUser.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/view/DialogBox.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/view/MainWindow.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/xiaoDu$1.class.uniqueId0" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/xiaoDu.class.uniqueId1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/xiaoDu/DialogBox.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/xiaoDu/Launcher.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/xiaoDu/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/xiaoDu/MainWindow.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/DaDuke.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/DaUser.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/view/DialogBox.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/view/MainWindow.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6.2/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.2/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6.2/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.2/dependencies-accessors/dependencies-accessors.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.6.2/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.2/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.6.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.2/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.6.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.2/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.6.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.2/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.6.2/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.2/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2025_8_31_20_23_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2025_8_31_20_23__Changes_1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/xiaoDu/Command.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/xiaoDu/Command.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/xiaoDu/CommandType.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/xiaoDu/CommandType.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/xiaoDu/Parser$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/xiaoDu/Parser$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/xiaoDu/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/xiaoDu/Parser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/xiaoDu/TaskList.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/xiaoDu/TaskList.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/xiaoDu/Ui.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/xiaoDu/Ui.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/xiaoDu/xiaoDu$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/xiaoDu/xiaoDu$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/xiaoDu/xiaoDu.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/xiaoDu/xiaoDu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/backup-dir/xiaoDu$1.class1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/Command.class.uniqueId6" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/CommandType.class.uniqueId0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/Parser$1.class.uniqueId1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/Parser.class.uniqueId5" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/Storage.class.uniqueId7" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/TaskList.class.uniqueId3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/Ui.class.uniqueId2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/xiaoDu.class.uniqueId4" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/xiaoDu/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xiaoDu/Parser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/xiaoDu/xiaoDu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xiaoDu/xiaoDu.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,20 +92,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.ToDoTest.executor": "Run",
-    "Gradle.ip [:xiaoDu.xiaoDu.main()].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "branch-Level-9",
-    "kotlin-language-version-configured": "true",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.ToDoTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.ip [:xiaoDu.Launcher.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.ip [:xiaoDu.XiaoDu.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.ip [:xiaoDu.xiaoDu.main()].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;branch-Level-10&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="ToDoTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>

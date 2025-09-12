@@ -1,10 +1,10 @@
-/**
- * Main class for xiaoDu
- */
 package xiaoDu;
 
 import java.util.ArrayList;
 
+/**
+ * Main class for xiaoDu - modified to work with both CLI and GUI
+ */
 public class xiaoDu {
     private TaskList tasks;
     private Ui ui;
@@ -17,7 +17,181 @@ public class xiaoDu {
     }
 
     /**
-     * The method to run xiaoDu
+     * Get response for GUI - processes command and returns response string
+     */
+    public String getResponse(String input) {
+        try {
+            Command command = Parser.parse(input);
+
+            switch (command.getType()) {
+                case BYE:
+                    return "Bye. Hope to see you again soon!";
+
+                case LIST:
+                    return getTaskListString();
+
+                case MARK:
+                    return handleMark(command.getArguments());
+
+                case UNMARK:
+                    return handleUnmark(command.getArguments());
+
+                case DELETE:
+                    return handleDelete(command.getArguments());
+
+                case TODO:
+                    return handleTodo(command.getArguments());
+
+                case DEADLINE:
+                    return handleDeadline(command.getArguments());
+
+                case EVENT:
+                    return handleEvent(command.getArguments());
+
+                case FIND:
+                    return handleFind(command.getArguments());
+
+                default:
+                    return "I'm sorry, but I don't know what that means :-(\n\n" +
+                            "Try commands like:\n" +
+                            " todo [task]\n" +
+                            " deadline [task] /by [date]\n" +
+                            " list\n" +
+                            " mark [number]";
+            }
+        } catch (Exception e) {
+            return "Sorry, I encountered an error: " + e.getMessage();
+        }
+    }
+
+    // GUI version methods (return strings)
+    private String getTaskListString() {
+        if (tasks.size() == 0) {
+            return "Your task list is empty! Try adding some tasks.";
+        }
+        StringBuilder result = new StringBuilder("Here are the tasks in your list:\n");
+        for (int i = 0; i < tasks.size(); i++) {
+            result.append((i + 1)).append(". ").append(tasks.get(i)).append("\n");
+        }
+        return result.toString();
+    }
+
+    private String handleMark(String arguments) {
+        try {
+            int taskNumber = Integer.parseInt(arguments) - 1;
+            if (tasks.isValidIndex(taskNumber)) {
+                tasks.get(taskNumber).markAsDone();
+                storage.save(tasks);
+                return "Nice! I've marked this task as done:\n  " + tasks.get(taskNumber);
+            } else {
+                return "Invalid task number! Please enter a number between 1 and " + tasks.size();
+            }
+        } catch (NumberFormatException e) {
+            return "Please provide a valid task number!";
+        }
+    }
+
+    private String handleUnmark(String arguments) {
+        try {
+            int taskNumber = Integer.parseInt(arguments) - 1;
+            if (tasks.isValidIndex(taskNumber)) {
+                tasks.get(taskNumber).markAsNotDone();
+                storage.save(tasks);
+                return "OK, I've marked this task as not done yet:\n  " + tasks.get(taskNumber);
+            } else {
+                return "Invalid task number! Please enter a number between 1 and " + tasks.size();
+            }
+        } catch (NumberFormatException e) {
+            return "Please provide a valid task number!";
+        }
+    }
+
+    private String handleDelete(String arguments) {
+        try {
+            int taskNumber = Integer.parseInt(arguments) - 1;
+            if (tasks.isValidIndex(taskNumber)) {
+                Task removedTask = tasks.remove(taskNumber);
+                storage.save(tasks);
+                return "Noted. I've removed this task:\n  " + removedTask +
+                        "\nNow you have " + tasks.size() + " tasks in the list.";
+            } else {
+                return "Invalid task number! Please enter a number between 1 and " + tasks.size();
+            }
+        } catch (NumberFormatException e) {
+            return "Please provide a valid task number!";
+        }
+    }
+
+    private String handleTodo(String arguments) {
+        if (arguments.trim().isEmpty()) {
+            return "The description of a todo cannot be empty.\nExample: todo read book";
+        } else {
+            Task newTask = Parser.parseTask(CommandType.TODO, arguments);
+            tasks.add(newTask);
+            storage.save(tasks);
+            return "Got it. I've added this task:\n  " + newTask +
+                    "\nNow you have " + tasks.size() + " tasks in the list.";
+        }
+    }
+
+    private String handleDeadline(String arguments) {
+        if (arguments.trim().isEmpty()) {
+            return "The description of a deadline cannot be empty.\nExample: deadline homework /by 2023-12-01";
+        } else {
+            Task newTask = Parser.parseTask(CommandType.DEADLINE, arguments);
+            if (newTask != null) {
+                tasks.add(newTask);
+                storage.save(tasks);
+                return "Got it. I've added this task:\n  " + newTask +
+                        "\nNow you have " + tasks.size() + " tasks in the list.";
+            } else {
+                return "Please specify the deadline using /by.\nExample: deadline homework /by 2023-12-01";
+            }
+        }
+    }
+
+    private String handleEvent(String arguments) {
+        if (arguments.trim().isEmpty()) {
+            return "The description of an event cannot be empty.\nExample: event meeting /from 2pm /to 4pm";
+        } else {
+            Task newTask = Parser.parseTask(CommandType.EVENT, arguments);
+            if (newTask != null) {
+                tasks.add(newTask);
+                storage.save(tasks);
+                return "Got it. I've added this task:\n  " + newTask +
+                        "\nNow you have " + tasks.size() + " tasks in the list.";
+            } else {
+                return "Please specify the time using /from and /to.\nExample: event meeting /from 2pm /to 4pm";
+            }
+        }
+    }
+
+    private String handleFind(String arguments) {
+        if (arguments.trim().isEmpty()) {
+            return "Please provide a keyword to search for.\nExample: find book";
+        }
+
+        ArrayList<Task> matchingTasks = new ArrayList<>();
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
+            if (task.getDescription().toLowerCase().contains(arguments.toLowerCase())) {
+                matchingTasks.add(task);
+            }
+        }
+
+        if (matchingTasks.isEmpty()) {
+            return "No matching tasks found for: " + arguments;
+        }
+
+        StringBuilder result = new StringBuilder("Here are the matching tasks in your list:\n");
+        for (int i = 0; i < matchingTasks.size(); i++) {
+            result.append((i + 1)).append(". ").append(matchingTasks.get(i)).append("\n");
+        }
+        return result.toString();
+    }
+
+    /**
+     * The method to run xiaoDu in CLI mode
      */
     public void run() {
         ui.showWelcome();
@@ -36,31 +210,31 @@ public class xiaoDu {
                     break;
 
                 case MARK:
-                    handleMark(command.getArguments());
+                    handleMarkCLI(command.getArguments());
                     break;
 
                 case UNMARK:
-                    handleUnmark(command.getArguments());
+                    handleUnmarkCLI(command.getArguments());
                     break;
 
                 case DELETE:
-                    handleDelete(command.getArguments());
+                    handleDeleteCLI(command.getArguments());
                     break;
 
                 case TODO:
-                    handleTodo(command.getArguments());
+                    handleTodoCLI(command.getArguments());
                     break;
 
                 case DEADLINE:
-                    handleDeadline(command.getArguments());
+                    handleDeadlineCLI(command.getArguments());
                     break;
 
                 case EVENT:
-                    handleEvent(command.getArguments());
+                    handleEventCLI(command.getArguments());
                     break;
 
                 case FIND:
-                    handleFind(command.getArguments());
+                    handleFindCLI(command.getArguments());
                     break;
 
                 case UNKNOWN:
@@ -70,11 +244,8 @@ public class xiaoDu {
         }
     }
 
-    /**
-     * handle mark command
-     * @param arguments num of task to be marked
-     */
-    private void handleMark(String arguments) {
+    // CLI version methods (use UI) - keep your original methods
+    private void handleMarkCLI(String arguments) {
         try {
             int taskNumber = Integer.parseInt(arguments) - 1;
             if (tasks.isValidIndex(taskNumber)) {
@@ -89,11 +260,7 @@ public class xiaoDu {
         }
     }
 
-    /**
-     * Fulfill unmark command
-     * @param arguments num of task to be unmarked
-     */
-    private void handleUnmark(String arguments) {
+    private void handleUnmarkCLI(String arguments) {
         try {
             int taskNumber = Integer.parseInt(arguments) - 1;
             if (tasks.isValidIndex(taskNumber)) {
@@ -108,7 +275,7 @@ public class xiaoDu {
         }
     }
 
-    private void handleDelete(String arguments) {
+    private void handleDeleteCLI(String arguments) {
         try {
             int taskNumber = Integer.parseInt(arguments) - 1;
             if (tasks.isValidIndex(taskNumber)) {
@@ -123,7 +290,7 @@ public class xiaoDu {
         }
     }
 
-    private void handleTodo(String arguments) {
+    private void handleTodoCLI(String arguments) {
         if (arguments.trim().isEmpty()) {
             ui.showError("The description of a todo cannot be empty.");
         } else {
@@ -134,7 +301,7 @@ public class xiaoDu {
         }
     }
 
-    private void handleDeadline(String arguments) {
+    private void handleDeadlineCLI(String arguments) {
         if (arguments.trim().isEmpty()) {
             ui.showError("The description of a deadline cannot be empty.");
         } else {
@@ -149,7 +316,7 @@ public class xiaoDu {
         }
     }
 
-    private void handleEvent(String arguments) {
+    private void handleEventCLI(String arguments) {
         if (arguments.trim().isEmpty()) {
             ui.showError("The description of an event cannot be empty.");
         } else {
@@ -164,7 +331,7 @@ public class xiaoDu {
         }
     }
 
-    private void handleFind(String arguments){
+    private void handleFindCLI(String arguments) {
         ArrayList<Task> matchingTasks = new ArrayList<>();
         for (int i = 0; i < tasks.size(); i++) {
             Task task = tasks.get(i);
