@@ -1,3 +1,9 @@
 "*.class" 
 "production/" 
 ".gradle/*"
+# IDE files
+.idea/
+*.iml
+*.iws
+*.ipr
+
