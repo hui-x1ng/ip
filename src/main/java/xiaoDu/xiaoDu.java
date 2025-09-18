@@ -1,6 +1,7 @@
 package xiaoDu;
 
 import java.util.ArrayList;
+import java.time.LocalDate;
 
 /**
  * Main class for xiaoDu - modified to work with both CLI and GUI
@@ -52,6 +53,9 @@ public class xiaoDu {
 
                 case FIND:
                     return handleFind(command.getArguments());
+
+                case VIEWSCHEDULE:
+                    return handleViewSchedule(command.getArguments());
 
                 default:
                     return "I'm sorry, but I don't know what that means :-(\n\n" +
@@ -192,6 +196,43 @@ public class xiaoDu {
         return result.toString();
     }
 
+    private String handleViewSchedule(String arguments) {
+        LocalDate targetDate;
+        try {
+            if (arguments.trim().isEmpty()) {
+                targetDate = LocalDate.now();
+            } else {
+                targetDate = LocalDate.parse(arguments.trim());
+            }
+            return getScheduleForDate(targetDate);
+        } catch (Exception e) {
+            return "Please provide a valid date (YYYY-MM-DD) or leave empty for today.";
+        }
+    }
+
+    private String getScheduleForDate(LocalDate date) {
+        StringBuilder result = new StringBuilder("Schedule for " + date + ":\n");
+        boolean hasTasksForDate = false;
+
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
+
+            if (task instanceof Deadline) {
+                Deadline deadline = (Deadline) task;
+                if (deadline.byDate != null && deadline.byDate.equals(date)) {
+                    result.append("• [DEADLINE] ").append(task.getDescription()).append(" (by: ").append(deadline.by).append(")\n");
+                    hasTasksForDate = true;
+                }
+            }
+
+        }
+
+        if (!hasTasksForDate) {
+            result.append("No tasks scheduled for this date.");
+        }
+
+        return result.toString();
+    }
     /**
      * The method to run xiaoDu in CLI mode
      */
@@ -237,6 +278,10 @@ public class xiaoDu {
 
                 case FIND:
                     handleFindCLI(command.getArguments());
+                    break;
+
+                case VIEWSCHEDULE:
+                    handleViewScheduleCLI(command.getArguments());
                     break;
 
                 case UNKNOWN:
@@ -345,6 +390,11 @@ public class xiaoDu {
         for (int i = 0; i < matchingTasks.size(); i++) {
             System.out.println((i + 1) + "." + matchingTasks.get(i));
         }
+    }
+
+    private void handleViewScheduleCLI(String arguments) {
+        String result = handleViewSchedule(arguments);
+        System.out.println(result);
     }
 
     public static void main(String[] args) {
