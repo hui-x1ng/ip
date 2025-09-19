@@ -2,7 +2,7 @@ package xiaoDu;
 
 import java.util.ArrayList;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException; // AI recommend: Added for specific exception handling
+import java.time.format.DateTimeParseException;
 
 /**
  * Main class for xiaoDu - modified to work with both CLI and GUI
@@ -10,14 +10,6 @@ import java.time.format.DateTimeParseException; // AI recommend: Added for speci
 public class xiaoDu {
     // AI recommend: Added constants for better maintainability
     private static final String EMPTY_TASK_LIST_MESSAGE = "Your task list is empty! Try adding some tasks.";
-    private static final String INVALID_TASK_NUMBER_MESSAGE = "Invalid task number!";
-    private static final String INVALID_NUMBER_FORMAT_MESSAGE = "Please provide a valid task number!";
-    private static final String EMPTY_TODO_MESSAGE = "The description of a todo cannot be empty.\nExample: todo read book";
-    private static final String EMPTY_DEADLINE_MESSAGE = "The description of a deadline cannot be empty.\nExample: deadline homework /by 2023-12-01";
-    private static final String EMPTY_EVENT_MESSAGE = "The description of an event cannot be empty.\nExample: event meeting /from 2pm /to 4pm";
-    private static final String DEADLINE_FORMAT_ERROR = "Please specify the deadline using /by.\nExample: deadline homework /by 2023-12-01";
-    private static final String EVENT_FORMAT_ERROR = "Please specify the time using /from and /to.\nExample: event meeting /from 2pm /to 4pm";
-    private static final String EMPTY_FIND_MESSAGE = "Please provide a keyword to search for.\nExample: find book";
 
     private TaskList tasks;
     private Ui ui;
@@ -101,9 +93,9 @@ public class xiaoDu {
                     return "I'm sorry, but I don't know what that means :-(\n\n" +
                             "Try commands like:\n" +
                             " todo [task]\n" +
-                            " deadline [task] /by [date]\n" +
+                            " deadline [task] /by [YYYY-MM-DD]\n" +
                             " event [task] /from [time] /to [time]\n" +
-                            " schedule [YYYY-MM-DD] (or empty for today)\n" + // AI recommend: Added schedule command
+                            " schedule [YYYY-MM-DD] (or empty for today)\n" +
                             " find [keyword]\n" +
                             " list\n" +
                             " mark [number]";
@@ -115,62 +107,41 @@ public class xiaoDu {
         }
     }
 
-    // AI recommend: Extracted common logic for task operations
+    // AI recommend: Extracted common logic for task operations using Parser validation
     private TaskOperationResult markTask(String arguments) {
-        if (arguments == null || arguments.trim().isEmpty()) { // AI recommend: Added null check
-            return new TaskOperationResult(false, "Please provide a task number to mark.");
+        Parser.ValidationResult validation = Parser.validateTaskNumber(arguments, tasks.size());
+        if (!validation.isValid()) {
+            return new TaskOperationResult(false, validation.getErrorMessage());
         }
 
-        try {
-            int taskNumber = Integer.parseInt(arguments.trim()) - 1; // AI recommend: Added trim()
-            if (tasks.isValidIndex(taskNumber)) {
-                tasks.get(taskNumber).markAsDone();
-                storage.save(tasks);
-                return new TaskOperationResult(true, "Task marked successfully", tasks.get(taskNumber));
-            } else {
-                return new TaskOperationResult(false, "Invalid task number! Please enter a number between 1 and " + tasks.size());
-            }
-        } catch (NumberFormatException e) {
-            return new TaskOperationResult(false, INVALID_NUMBER_FORMAT_MESSAGE);
-        }
+        int taskNumber = Integer.parseInt(arguments.trim()) - 1;
+        tasks.get(taskNumber).markAsDone();
+        storage.save(tasks);
+        return new TaskOperationResult(true, "Task marked successfully", tasks.get(taskNumber));
     }
 
     private TaskOperationResult unmarkTask(String arguments) {
-        if (arguments == null || arguments.trim().isEmpty()) { // AI recommend: Added null check
-            return new TaskOperationResult(false, "Please provide a task number to unmark.");
+        Parser.ValidationResult validation = Parser.validateTaskNumber(arguments, tasks.size());
+        if (!validation.isValid()) {
+            return new TaskOperationResult(false, validation.getErrorMessage());
         }
 
-        try {
-            int taskNumber = Integer.parseInt(arguments.trim()) - 1; // AI recommend: Added trim()
-            if (tasks.isValidIndex(taskNumber)) {
-                tasks.get(taskNumber).markAsNotDone();
-                storage.save(tasks);
-                return new TaskOperationResult(true, "Task unmarked successfully", tasks.get(taskNumber));
-            } else {
-                return new TaskOperationResult(false, "Invalid task number! Please enter a number between 1 and " + tasks.size());
-            }
-        } catch (NumberFormatException e) {
-            return new TaskOperationResult(false, INVALID_NUMBER_FORMAT_MESSAGE);
-        }
+        int taskNumber = Integer.parseInt(arguments.trim()) - 1;
+        tasks.get(taskNumber).markAsNotDone();
+        storage.save(tasks);
+        return new TaskOperationResult(true, "Task unmarked successfully", tasks.get(taskNumber));
     }
 
     private TaskOperationResult deleteTask(String arguments) {
-        if (arguments == null || arguments.trim().isEmpty()) { // AI recommend: Added null check
-            return new TaskOperationResult(false, "Please provide a task number to delete.");
+        Parser.ValidationResult validation = Parser.validateTaskNumber(arguments, tasks.size());
+        if (!validation.isValid()) {
+            return new TaskOperationResult(false, validation.getErrorMessage());
         }
 
-        try {
-            int taskNumber = Integer.parseInt(arguments.trim()) - 1; // AI recommend: Added trim()
-            if (tasks.isValidIndex(taskNumber)) {
-                Task removedTask = tasks.remove(taskNumber);
-                storage.save(tasks);
-                return new TaskOperationResult(true, "Task deleted successfully", removedTask, tasks.size());
-            } else {
-                return new TaskOperationResult(false, "Invalid task number! Please enter a number between 1 and " + tasks.size());
-            }
-        } catch (NumberFormatException e) {
-            return new TaskOperationResult(false, INVALID_NUMBER_FORMAT_MESSAGE);
-        }
+        int taskNumber = Integer.parseInt(arguments.trim()) - 1;
+        Task removedTask = tasks.remove(taskNumber);
+        storage.save(tasks);
+        return new TaskOperationResult(true, "Task deleted successfully", removedTask, tasks.size());
     }
 
     // GUI version methods (return strings)
@@ -187,84 +158,97 @@ public class xiaoDu {
     }
 
     private String handleMark(String arguments) {
-        TaskOperationResult result = markTask(arguments); // AI recommend: Use extracted method
+        TaskOperationResult result = markTask(arguments);
         return result.isSuccess() ? "Nice! I've marked this task as done:\n  " + result.getTask()
                 : result.getMessage();
     }
 
     private String handleUnmark(String arguments) {
-        TaskOperationResult result = unmarkTask(arguments); // AI recommend: Use extracted method
+        TaskOperationResult result = unmarkTask(arguments);
         return result.isSuccess() ? "OK, I've marked this task as not done yet:\n  " + result.getTask()
                 : result.getMessage();
     }
 
     private String handleDelete(String arguments) {
-        TaskOperationResult result = deleteTask(arguments); // AI recommend: Use extracted method
+        TaskOperationResult result = deleteTask(arguments);
         return result.isSuccess() ? "Noted. I've removed this task:\n  " + result.getTask() +
                 "\nNow you have " + result.getTaskCount() + " tasks in the list."
                 : result.getMessage();
     }
 
     private String handleTodo(String arguments) {
-        if (arguments == null || arguments.trim().isEmpty()) { // AI recommend: Added null check
-            return EMPTY_TODO_MESSAGE;
-        } else {
-            Task newTask = Parser.parseTask(CommandType.TODO, arguments);
-            tasks.add(newTask);
-            storage.save(tasks);
-            return "Got it. I've added this task:\n  " + newTask +
-                    "\nNow you have " + tasks.size() + " tasks in the list.";
+        // AI recommend: Use Parser validation
+        Parser.ValidationResult validation = Parser.validateTodoInput(arguments);
+        if (!validation.isValid()) {
+            return validation.getErrorMessage();
         }
+
+        Task newTask = Parser.parseTask(CommandType.TODO, arguments);
+        if (newTask == null) {
+            return "Failed to create todo task. Please check your input format.";
+        }
+
+        tasks.add(newTask);
+        storage.save(tasks);
+        return "Got it. I've added this task:\n  " + newTask +
+                "\nNow you have " + tasks.size() + " tasks in the list.";
     }
 
     private String handleDeadline(String arguments) {
-        if (arguments == null || arguments.trim().isEmpty()) { // AI recommend: Added null check
-            return EMPTY_DEADLINE_MESSAGE;
-        } else {
-            Task newTask = Parser.parseTask(CommandType.DEADLINE, arguments);
-            if (newTask != null) {
-                tasks.add(newTask);
-                storage.save(tasks);
-                return "Got it. I've added this task:\n  " + newTask +
-                        "\nNow you have " + tasks.size() + " tasks in the list.";
-            } else {
-                return DEADLINE_FORMAT_ERROR;
-            }
+        // AI recommend: Use Parser validation
+        Parser.ValidationResult validation = Parser.validateDeadlineInput(arguments);
+        if (!validation.isValid()) {
+            return validation.getErrorMessage();
         }
+
+        Task newTask = Parser.parseTask(CommandType.DEADLINE, arguments);
+        if (newTask == null) {
+            return "Failed to create deadline task. Please check your input format.";
+        }
+
+        tasks.add(newTask);
+        storage.save(tasks);
+        return "Got it. I've added this task:\n  " + newTask +
+                "\nNow you have " + tasks.size() + " tasks in the list.";
     }
 
     private String handleEvent(String arguments) {
-        if (arguments == null || arguments.trim().isEmpty()) { // AI recommend: Added null check
-            return EMPTY_EVENT_MESSAGE;
-        } else {
-            Task newTask = Parser.parseTask(CommandType.EVENT, arguments);
-            if (newTask != null) {
-                tasks.add(newTask);
-                storage.save(tasks);
-                return "Got it. I've added this task:\n  " + newTask +
-                        "\nNow you have " + tasks.size() + " tasks in the list.";
-            } else {
-                return EVENT_FORMAT_ERROR;
-            }
+        // AI recommend: Use Parser validation
+        Parser.ValidationResult validation = Parser.validateEventInput(arguments);
+        if (!validation.isValid()) {
+            return validation.getErrorMessage();
         }
+
+        Task newTask = Parser.parseTask(CommandType.EVENT, arguments);
+        if (newTask == null) {
+            return "Failed to create event task. Please check your input format.";
+        }
+
+        tasks.add(newTask);
+        storage.save(tasks);
+        return "Got it. I've added this task:\n  " + newTask +
+                "\nNow you have " + tasks.size() + " tasks in the list.";
     }
 
     private String handleFind(String arguments) {
-        if (arguments == null || arguments.trim().isEmpty()) { // AI recommend: Added null check
-            return EMPTY_FIND_MESSAGE;
+        // AI recommend: Use Parser validation
+        Parser.ValidationResult validation = Parser.validateFindInput(arguments);
+        if (!validation.isValid()) {
+            return validation.getErrorMessage();
         }
 
         ArrayList<Task> matchingTasks = new ArrayList<>();
+        String keyword = arguments.trim();
         int taskCount = tasks.size(); // AI recommend: Avoid repeated method calls
         for (int i = 0; i < taskCount; i++) {
             Task task = tasks.get(i);
-            if (task.getDescription().toLowerCase().contains(arguments.toLowerCase())) {
+            if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
                 matchingTasks.add(task);
             }
         }
 
         if (matchingTasks.isEmpty()) {
-            return "No matching tasks found for: " + arguments;
+            return "No matching tasks found for: " + keyword;
         }
 
         StringBuilder result = new StringBuilder("Here are the matching tasks in your list:\n");
@@ -276,19 +260,19 @@ public class xiaoDu {
     }
 
     private String handleViewSchedule(String arguments) {
-        LocalDate targetDate;
-        try {
-            if (arguments == null || arguments.trim().isEmpty()) { // AI recommend: Added null check
-                targetDate = LocalDate.now();
-            } else {
-                targetDate = LocalDate.parse(arguments.trim());
-            }
-            return getScheduleForDate(targetDate);
-        } catch (DateTimeParseException e) { // AI recommend: More specific exception handling
-            return "Invalid date format! Please use YYYY-MM-DD format (e.g., 2025-01-20) or leave empty for today.";
-        } catch (Exception e) {
-            return "Error processing date: " + e.getMessage();
+        // AI recommend: Use Parser validation
+        Parser.ValidationResult validation = Parser.validateScheduleInput(arguments);
+        if (!validation.isValid()) {
+            return validation.getErrorMessage();
         }
+
+        LocalDate targetDate;
+        if (arguments == null || arguments.trim().isEmpty()) {
+            targetDate = LocalDate.now();
+        } else {
+            targetDate = LocalDate.parse(arguments.trim());
+        }
+        return getScheduleForDate(targetDate);
     }
 
     private String getScheduleForDate(LocalDate date) {
@@ -380,7 +364,7 @@ public class xiaoDu {
         }
     }
 
-    // CLI version methods (use UI) - AI recommend: Refactored to use common logic
+    // CLI version methods (use UI) - AI recommend: Refactored to use common logic and Parser validation
     private void handleMarkCLI(String arguments) {
         TaskOperationResult result = markTask(arguments);
         if (result.isSuccess()) {
@@ -409,63 +393,78 @@ public class xiaoDu {
     }
 
     private void handleTodoCLI(String arguments) {
-        if (arguments == null || arguments.trim().isEmpty()) { // AI recommend: Added null check
-            ui.showError("The description of a todo cannot be empty.");
-        } else {
-            Task newTask = Parser.parseTask(CommandType.TODO, arguments);
-            tasks.add(newTask);
-            ui.showTaskAdded(newTask, tasks.size());
-            storage.save(tasks);
+        Parser.ValidationResult validation = Parser.validateTodoInput(arguments);
+        if (!validation.isValid()) {
+            ui.showError(validation.getErrorMessage());
+            return;
         }
+
+        Task newTask = Parser.parseTask(CommandType.TODO, arguments);
+        if (newTask == null) {
+            ui.showError("Failed to create todo task. Please check your input format.");
+            return;
+        }
+
+        tasks.add(newTask);
+        ui.showTaskAdded(newTask, tasks.size());
+        storage.save(tasks);
     }
 
     private void handleDeadlineCLI(String arguments) {
-        if (arguments == null || arguments.trim().isEmpty()) { // AI recommend: Added null check
-            ui.showError("The description of a deadline cannot be empty.");
-        } else {
-            Task newTask = Parser.parseTask(CommandType.DEADLINE, arguments);
-            if (newTask != null) {
-                tasks.add(newTask);
-                ui.showTaskAdded(newTask, tasks.size());
-                storage.save(tasks);
-            } else {
-                ui.showError("Please specify the deadline using /by.");
-            }
+        Parser.ValidationResult validation = Parser.validateDeadlineInput(arguments);
+        if (!validation.isValid()) {
+            ui.showError(validation.getErrorMessage());
+            return;
         }
+
+        Task newTask = Parser.parseTask(CommandType.DEADLINE, arguments);
+        if (newTask == null) {
+            ui.showError("Failed to create deadline task. Please check your input format.");
+            return;
+        }
+
+        tasks.add(newTask);
+        ui.showTaskAdded(newTask, tasks.size());
+        storage.save(tasks);
     }
 
     private void handleEventCLI(String arguments) {
-        if (arguments == null || arguments.trim().isEmpty()) { // AI recommend: Added null check
-            ui.showError("The description of an event cannot be empty.");
-        } else {
-            Task newTask = Parser.parseTask(CommandType.EVENT, arguments);
-            if (newTask != null) {
-                tasks.add(newTask);
-                ui.showTaskAdded(newTask, tasks.size());
-                storage.save(tasks);
-            } else {
-                ui.showError("Please specify the time using /from and /to.");
-            }
+        Parser.ValidationResult validation = Parser.validateEventInput(arguments);
+        if (!validation.isValid()) {
+            ui.showError(validation.getErrorMessage());
+            return;
         }
+
+        Task newTask = Parser.parseTask(CommandType.EVENT, arguments);
+        if (newTask == null) {
+            ui.showError("Failed to create event task. Please check your input format.");
+            return;
+        }
+
+        tasks.add(newTask);
+        ui.showTaskAdded(newTask, tasks.size());
+        storage.save(tasks);
     }
 
     private void handleFindCLI(String arguments) {
-        if (arguments == null || arguments.trim().isEmpty()) { // AI recommend: Added input validation
-            ui.showError("Please provide a keyword to search for.");
+        Parser.ValidationResult validation = Parser.validateFindInput(arguments);
+        if (!validation.isValid()) {
+            ui.showError(validation.getErrorMessage());
             return;
         }
 
         ArrayList<Task> matchingTasks = new ArrayList<>();
+        String keyword = arguments.trim();
         int taskCount = tasks.size(); // AI recommend: Avoid repeated method calls
         for (int i = 0; i < taskCount; i++) {
             Task task = tasks.get(i);
-            if (task.getDescription().toLowerCase().contains(arguments.toLowerCase())) {
+            if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
                 matchingTasks.add(task);
             }
         }
 
-        if (matchingTasks.isEmpty()) { // AI recommend: Handle no results case
-            System.out.println("No matching tasks found for: " + arguments);
+        if (matchingTasks.isEmpty()) {
+            System.out.println("No matching tasks found for: " + keyword);
             return;
         }
 
