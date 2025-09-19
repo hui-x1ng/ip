@@ -1,5 +1,5 @@
-"*.class" 
-"production/"
-".idea/"
-"build/"
-".gradle/"
+*.class
+production/
+.idea/
+build/
+.gradle/
