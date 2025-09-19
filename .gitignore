@@ -1,3 +1,5 @@
 "*.class" 
 "production/"
 ".idea/"
+"build/"
+".gradle/"
