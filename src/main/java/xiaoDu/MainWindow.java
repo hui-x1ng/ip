@@ -8,9 +8,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
-/**
- * Controller for the main GUI.
- */
 public class MainWindow extends AnchorPane {
     @FXML
     private ScrollPane scrollPane;
@@ -23,31 +20,24 @@ public class MainWindow extends AnchorPane {
 
     private xiaoDu xiaoDu;
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
-    private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
+    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DuUser.png"));
+    private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/xiaoDu.png"));
 
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
 
-        // Show welcome message
         String welcomeMessage = "Hello! I'm xiaoDu. What can I do for you?\n";
-
 
         dialogContainer.getChildren().add(
                 DialogBox.getDukeDialog(welcomeMessage, dukeImage)
         );
     }
 
-    /** Injects the XiaoDu instance */
     public void setXiaoDu(xiaoDu d) {
         xiaoDu = d;
     }
 
-    /**
-     * Creates two dialog boxes, one echoing user input and the other containing XiaoDu's reply and then appends them to
-     * the dialog container. Clears the user input after processing.
-     */
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
