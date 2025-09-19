@@ -16,7 +16,20 @@ public class Storage {
 
     public void save(TaskList tasks) {
         try {
-            FileWriter writer = new FileWriter(filePath);
+            File file = new File(filePath);
+            File parentDir = file.getParentFile();
+            if (parentDir != null && !parentDir.exists()) {
+                parentDir.mkdirs();
+                System.out.println("Created directory: " + parentDir.getPath());
+            }
+
+            // 自动创建文件
+            if (!file.exists()) {
+                file.createNewFile();
+                System.out.println("Created data file: " + filePath);
+            }
+
+            FileWriter writer = new FileWriter(file);
             for (int i = 0; i < tasks.size(); i++) {
                 Task task = tasks.get(i);
                 String line = "";
@@ -33,13 +46,26 @@ public class Storage {
             }
             writer.close();
         } catch (IOException e) {
+            System.err.println("Failed to save data: " + e.getMessage());
         }
     }
 
     public TaskList load() {
         TaskList tasks = new TaskList();
         try {
-            Scanner fileScanner = new Scanner(new File(filePath));
+            File file = new File(filePath);
+
+            if (!file.exists()) {
+                File parentDir = file.getParentFile();
+                if (parentDir != null && !parentDir.exists()) {
+                    parentDir.mkdirs();
+                }
+                file.createNewFile();
+                System.out.println("Created new data file: " + filePath);
+                return tasks;
+            }
+
+            Scanner fileScanner = new Scanner(file);
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
                 String[] parts = line.split(" \\| ");
@@ -69,6 +95,7 @@ public class Storage {
             }
             fileScanner.close();
         } catch (Exception e) {
+            System.err.println("Failed to load data: " + e.getMessage());
         }
         return tasks;
     }

@@ -95,7 +95,7 @@ public class xiaoDu {
                             " todo [task]\n" +
                             " deadline [task] /by [YYYY-MM-DD]\n" +
                             " event [task] /from [time] /to [time]\n" +
-                            " schedule [YYYY-MM-DD] (or empty for today)\n" +
+                            " schedule [YYYY-MM-DD]\n" +
                             " find [keyword]\n" +
                             " list\n" +
                             " mark [number]";
@@ -260,18 +260,12 @@ public class xiaoDu {
     }
 
     private String handleViewSchedule(String arguments) {
-        // AI recommend: Use Parser validation
         Parser.ValidationResult validation = Parser.validateScheduleInput(arguments);
         if (!validation.isValid()) {
             return validation.getErrorMessage();
         }
 
-        LocalDate targetDate;
-        if (arguments == null || arguments.trim().isEmpty()) {
-            targetDate = LocalDate.now();
-        } else {
-            targetDate = LocalDate.parse(arguments.trim());
-        }
+        LocalDate targetDate = LocalDate.parse(arguments.trim());
         return getScheduleForDate(targetDate);
     }
 
@@ -481,6 +475,6 @@ public class xiaoDu {
     }
 
     public static void main(String[] args) {
-        new xiaoDu("./data/duke.txt").run();
+        new xiaoDu("./data/xiaoDu.txt").run();
     }
 }

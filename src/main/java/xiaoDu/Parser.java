@@ -2,6 +2,7 @@
  * Parse command and time with comprehensive validation
  */
 
+
 package xiaoDu;
 
 import java.time.LocalDate;
@@ -157,9 +158,6 @@ public class Parser {
 
         try {
             LocalDate deadlineDate = LocalDate.parse(dateString);
-            if (deadlineDate.isBefore(LocalDate.now())) {
-                return new ValidationResult(false, "Deadline cannot be in the past! Please use a future date.");
-            }
         } catch (DateTimeParseException e) {
             return new ValidationResult(false, "Invalid date format! Please use YYYY-MM-DD format (e.g., 2025-01-20)");
         }
@@ -233,15 +231,14 @@ public class Parser {
     }
 
     public static ValidationResult validateScheduleInput(String arguments) {
-        // Empty arguments are valid (defaults to today)
         if (arguments == null || arguments.trim().isEmpty()) {
-            return new ValidationResult(true, null);
+            return new ValidationResult(false, "Please specify a date to view schedule.\nExample: schedule 2025-09-20");
         }
 
         try {
             LocalDate.parse(arguments.trim());
         } catch (DateTimeParseException e) {
-            return new ValidationResult(false, "Invalid date format! Please use YYYY-MM-DD format (e.g., 2025-01-20) or leave empty for today.");
+            return new ValidationResult(false, "Invalid date format! Please use YYYY-MM-DD format (e.g., 2025-09-20)");
         }
 
         return new ValidationResult(true, null);

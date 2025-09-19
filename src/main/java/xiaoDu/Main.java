@@ -12,8 +12,7 @@ import java.io.IOException;
  * A GUI for XiaoDu using FXML.
  */
 public class Main extends Application {
-
-    private xiaoDu xiaoDu = new xiaoDu("./data/duke.txt");
+    private xiaoDu xiaoDu = new xiaoDu("./data/xiaoDu.txt");
 
     @Override
     public void start(Stage stage) {
