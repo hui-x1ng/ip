@@ -44,7 +44,7 @@ public class Parser {
                 return new Command(CommandType.EVENT, arguments);
             case "find":
                 return new Command(CommandType.FIND, arguments);
-            case "schedule": // AI recommend: Added schedule command
+            case "schedule":
                 return new Command(CommandType.VIEWSCHEDULE, arguments);
             default:
                 return new Command(CommandType.UNKNOWN);
