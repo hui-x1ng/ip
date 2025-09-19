@@ -24,6 +24,10 @@ public class xiaoDu {
     }
 
     // AI recommend: Added result class to reduce code duplication
+
+    /**
+     * The class composed with task-related message and success or not
+     */
     private static class TaskOperationResult {
         private final boolean success;
         private final String message;
@@ -52,7 +56,9 @@ public class xiaoDu {
     }
 
     /**
-     * Get response for GUI - processes command and returns response string
+     * Get response - processes command and returns response string
+     * @param input string
+     * @return the response of the input
      */
     public String getResponse(String input) {
         try {
@@ -108,6 +114,12 @@ public class xiaoDu {
     }
 
     // AI recommend: Extracted common logic for task operations using Parser validation
+
+    /**
+     * Mark the task
+     * @param arguments String format number
+     * @return Mark result
+     */
     private TaskOperationResult markTask(String arguments) {
         Parser.ValidationResult validation = Parser.validateTaskNumber(arguments, tasks.size());
         if (!validation.isValid()) {
@@ -120,6 +132,11 @@ public class xiaoDu {
         return new TaskOperationResult(true, "Task marked successfully", tasks.get(taskNumber));
     }
 
+    /**
+     * Unmark the task
+     * @param arguments String format of the number
+     * @return unmark result
+     */
     private TaskOperationResult unmarkTask(String arguments) {
         Parser.ValidationResult validation = Parser.validateTaskNumber(arguments, tasks.size());
         if (!validation.isValid()) {
@@ -132,6 +149,11 @@ public class xiaoDu {
         return new TaskOperationResult(true, "Task unmarked successfully", tasks.get(taskNumber));
     }
 
+    /**
+     * Delete task and returns result
+     * @param arguments String format of the number
+     * @return delete status, message and the deleted task
+     */
     private TaskOperationResult deleteTask(String arguments) {
         Parser.ValidationResult validation = Parser.validateTaskNumber(arguments, tasks.size());
         if (!validation.isValid()) {
@@ -149,7 +171,7 @@ public class xiaoDu {
      * @return result string
      */
     private String getTaskListString() {
-        if (tasks.size() == 0) {
+        if (tasks.isEmpty()) {
             return EMPTY_TASK_LIST_MESSAGE;
         }
         StringBuilder result = new StringBuilder("Here are the tasks in your list:\n");
@@ -160,18 +182,33 @@ public class xiaoDu {
         return result.toString();
     }
 
+    /**
+     * Returns message after handle mark
+     * @param arguments parsed command
+     * @return massage to be printed
+     */
     private String handleMark(String arguments) {
         TaskOperationResult result = markTask(arguments);
         return result.isSuccess() ? "Nice! I've marked this task as done:\n  " + result.getTask()
                 : result.getMessage();
     }
 
+    /**
+     * Returns message after handle unmark
+     * @param arguments parsed command
+     * @return massage to be printed
+     */
     private String handleUnmark(String arguments) {
         TaskOperationResult result = unmarkTask(arguments);
         return result.isSuccess() ? "OK, I've marked this task as not done yet:\n  " + result.getTask()
                 : result.getMessage();
     }
 
+    /**
+     * Returns message after delete
+     * @param arguments parsed command
+     * @return massage to be printed
+     */
     private String handleDelete(String arguments) {
         TaskOperationResult result = deleteTask(arguments);
         return result.isSuccess() ? "Noted. I've removed this task:\n  " + result.getTask() +
@@ -179,6 +216,11 @@ public class xiaoDu {
                 : result.getMessage();
     }
 
+    /**
+     * Returns message after handle todo
+     * @param arguments parsed command
+     * @return massage to be printed
+     */
     private String handleTodo(String arguments) {
         // AI recommend: Use Parser validation
         Parser.ValidationResult validation = Parser.validateTodoInput(arguments);
@@ -197,6 +239,11 @@ public class xiaoDu {
                 "\nNow you have " + tasks.size() + " tasks in the list.";
     }
 
+    /**
+     * Returns message after handle deadline
+     * @param arguments parsed command
+     * @return massage to be printed
+     */
     private String handleDeadline(String arguments) {
         // AI recommend: Use Parser validation
         Parser.ValidationResult validation = Parser.validateDeadlineInput(arguments);
@@ -215,6 +262,11 @@ public class xiaoDu {
                 "\nNow you have " + tasks.size() + " tasks in the list.";
     }
 
+    /**
+     * Returns message after handle event
+     * @param arguments parsed command
+     * @return massage to be printed
+     */
     private String handleEvent(String arguments) {
         // AI recommend: Use Parser validation
         Parser.ValidationResult validation = Parser.validateEventInput(arguments);
@@ -233,6 +285,11 @@ public class xiaoDu {
                 "\nNow you have " + tasks.size() + " tasks in the list.";
     }
 
+    /**
+     * Returns message after handle find
+     * @param arguments parsed command
+     * @return massage to be printed
+     */
     private String handleFind(String arguments) {
         // AI recommend: Use Parser validation
         Parser.ValidationResult validation = Parser.validateFindInput(arguments);
@@ -262,6 +319,11 @@ public class xiaoDu {
         return result.toString();
     }
 
+    /**
+     * Returns message after handle schedule
+     * @param arguments parsed command
+     * @return massage to be printed
+     */
     private String handleViewSchedule(String arguments) {
         Parser.ValidationResult validation = Parser.validateScheduleInput(arguments);
         if (!validation.isValid()) {
@@ -272,6 +334,11 @@ public class xiaoDu {
         return getScheduleForDate(targetDate);
     }
 
+    /**
+     * Returns the schedule
+     * @param date the date to get schedule
+     * @return schedule
+     */
     private String getScheduleForDate(LocalDate date) {
         StringBuilder result = new StringBuilder("Schedule for " + date + ":\n");
         boolean hasTasksForDate = false;
@@ -362,6 +429,11 @@ public class xiaoDu {
     }
 
     // CLI version methods (use UI) - AI recommend: Refactored to use common logic and Parser validation
+
+    /**
+     * CLI version (no need to return) handle mark
+     * @param arguments parsed command
+     */
     private void handleMarkCLI(String arguments) {
         TaskOperationResult result = markTask(arguments);
         if (result.isSuccess()) {
@@ -371,6 +443,10 @@ public class xiaoDu {
         }
     }
 
+    /**
+     * CLI version (no need to return) handle unmark
+     * @param arguments parsed command
+     */
     private void handleUnmarkCLI(String arguments) {
         TaskOperationResult result = unmarkTask(arguments);
         if (result.isSuccess()) {
@@ -380,6 +456,10 @@ public class xiaoDu {
         }
     }
 
+    /**
+     * CLI version (no need to return) handle deletde
+     * @param arguments parsed command
+     */
     private void handleDeleteCLI(String arguments) {
         TaskOperationResult result = deleteTask(arguments);
         if (result.isSuccess()) {
@@ -389,6 +469,10 @@ public class xiaoDu {
         }
     }
 
+    /**
+     * CLI version (no need to return) handle todo
+     * @param arguments parsed command
+     */
     private void handleTodoCLI(String arguments) {
         Parser.ValidationResult validation = Parser.validateTodoInput(arguments);
         if (!validation.isValid()) {
@@ -407,6 +491,10 @@ public class xiaoDu {
         storage.save(tasks);
     }
 
+    /**
+     * CLI version (no need to return) handle deadline
+     * @param arguments parsed command
+     */
     private void handleDeadlineCLI(String arguments) {
         Parser.ValidationResult validation = Parser.validateDeadlineInput(arguments);
         if (!validation.isValid()) {
@@ -425,6 +513,10 @@ public class xiaoDu {
         storage.save(tasks);
     }
 
+    /**
+     * CLI version (no need to return) handle event
+     * @param arguments parsed command
+     */
     private void handleEventCLI(String arguments) {
         Parser.ValidationResult validation = Parser.validateEventInput(arguments);
         if (!validation.isValid()) {
@@ -443,6 +535,10 @@ public class xiaoDu {
         storage.save(tasks);
     }
 
+    /**
+     * CLI version (no need to return) handle find
+     * @param arguments parsed command
+     */
     private void handleFindCLI(String arguments) {
         Parser.ValidationResult validation = Parser.validateFindInput(arguments);
         if (!validation.isValid()) {
@@ -472,6 +568,10 @@ public class xiaoDu {
         }
     }
 
+    /**
+     * CLI version (no need to return) handle schedule
+     * @param arguments parsed command
+     */
     private void handleViewScheduleCLI(String arguments) {
         String result = handleViewSchedule(arguments);
         System.out.println(result);

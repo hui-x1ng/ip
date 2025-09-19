@@ -14,6 +14,10 @@ public class Storage {
         this.filePath = filePath;
     }
 
+    /**
+     * Save the task
+     * @param tasks task to be saved
+     */
     public void save(TaskList tasks) {
         try {
             File file = new File(filePath);
@@ -23,7 +27,6 @@ public class Storage {
                 System.out.println("Created directory: " + parentDir.getPath());
             }
 
-            // 自动创建文件
             if (!file.exists()) {
                 file.createNewFile();
                 System.out.println("Created data file: " + filePath);
@@ -100,6 +103,11 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Change the String format date into LocalDate
+     * @param dateString date
+     * @return LocalDate date
+     */
     private LocalDate parseDate(String dateString) {
         try {
             return LocalDate.parse(dateString);

@@ -109,6 +109,12 @@ public class Parser {
     }
 
     // AI recommend: Added comprehensive validation methods
+
+    /**
+     * Return Validated result of todo
+     * @param arguments todo argument
+     * @return Validated result of todo
+     */
     public static ValidationResult validateTodoInput(String arguments) {
         if (arguments == null || arguments.trim().isEmpty()) {
             return new ValidationResult(false, "The description of a todo cannot be empty.\nExample: todo read book");
@@ -126,6 +132,11 @@ public class Parser {
         return new ValidationResult(true, null);
     }
 
+    /**
+     * Returns validation result of deadline
+     * @param arguments deadline argument
+     * @return ValidationResult
+     */
     public static ValidationResult validateDeadlineInput(String arguments) {
         if (arguments == null || arguments.trim().isEmpty()) {
             return new ValidationResult(false, "The description of a deadline cannot be empty.\nExample: deadline homework /by 2023-12-01");
@@ -199,6 +210,12 @@ public class Parser {
         return new ValidationResult(true, null);
     }
 
+    /**
+     * Validates the input String format number
+     * @param arguments command
+     * @param taskListSize size of current list
+     * @return ValidationResult
+     */
     public static ValidationResult validateTaskNumber(String arguments, int taskListSize) {
         if (arguments == null || arguments.trim().isEmpty()) {
             return new ValidationResult(false, "Please provide a task number.");
@@ -243,6 +260,11 @@ public class Parser {
         return new ValidationResult(true, null);
     }
 
+    /**
+     * Return LocalDate format date for further processing
+     * @param dateString
+     * @return LocalDate format date
+     */
     private static LocalDate parseDate(String dateString) {
         try {
             return LocalDate.parse(dateString);

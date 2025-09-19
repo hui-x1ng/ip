@@ -21,6 +21,11 @@ public class TaskList {
         tasks.add(task);
     }
 
+    /**
+     * Remove the given index task in tasklist
+     * @param index
+     * @return the deleted task
+     */
     public Task remove(int index) {
         return tasks.remove(index);
     }
@@ -37,11 +42,12 @@ public class TaskList {
         return tasks.size();
     }
 
+    /**
+     * Return if the tasklist is empty
+     * @return is empty
+     */
     public boolean isEmpty() {
         return tasks.isEmpty();
     }
 
-    public boolean isValidIndex(int index) {
-        return index >= 0 && index < tasks.size();
-    }
 }

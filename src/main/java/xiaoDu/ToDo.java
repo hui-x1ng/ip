@@ -1,4 +1,7 @@
-//divide task into event,ddl and todo
+/**
+ * todo class
+ * have no time argument
+ */
 package xiaoDu;
 
 public class ToDo extends Task {

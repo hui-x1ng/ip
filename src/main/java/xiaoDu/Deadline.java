@@ -3,6 +3,10 @@ package xiaoDu;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Deadline class extends Task
+ * Has one time argument to mark ddl
+ */
 public class Deadline extends Task {
     public String by;
     public LocalDate byDate;

@@ -1,4 +1,7 @@
-//divide task into event,ddl and todo
+/**
+ * Event class extends task
+ * use from and to to mark a period of time
+ */
 package xiaoDu;
 
 public class Event extends Task {
