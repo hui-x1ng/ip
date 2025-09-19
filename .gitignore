@@ -3,3 +3,4 @@ production/
 .idea/
 build/
 .gradle/
+data/
