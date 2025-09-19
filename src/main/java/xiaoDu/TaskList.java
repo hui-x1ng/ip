@@ -13,6 +13,10 @@ public class TaskList {
         tasks = new ArrayList<>();
     }
 
+    /**
+     * Add task
+     * @param task
+     */
     public void add(Task task) {
         tasks.add(task);
     }
@@ -25,6 +29,10 @@ public class TaskList {
         return tasks.get(index);
     }
 
+    /**
+     * return the length of the tasklist
+     * @return the length of the tasklist
+     */
     public int size() {
         return tasks.size();
     }

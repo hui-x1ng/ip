@@ -144,7 +144,10 @@ public class xiaoDu {
         return new TaskOperationResult(true, "Task deleted successfully", removedTask, tasks.size());
     }
 
-    // GUI version methods (return strings)
+    /**
+     * GUI version methods
+     * @return result string
+     */
     private String getTaskListString() {
         if (tasks.size() == 0) {
             return EMPTY_TASK_LIST_MESSAGE;

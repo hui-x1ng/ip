@@ -1,7 +1,6 @@
 /**
- * Parse command and time with comprehensive validation
+ * Parse cand validate the command
  */
-
 
 package xiaoDu;
 
@@ -13,7 +12,7 @@ public class Parser {
     private static final int MAX_DESCRIPTION_LENGTH = 100;
 
     /**
-     * split the command first
+     * split the command
      * @param fullCommand full command
      * @return parsed command
      */
