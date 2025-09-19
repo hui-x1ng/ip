@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 bin/
 build/
 build.gradle
@@ -12,3 +13,7 @@ production/
 .idea/
 
 
+=======
+"*.class" 
+"production/" 
+>>>>>>> 7c562430d93802c35bb8c20e86675fa0ac6f4418
